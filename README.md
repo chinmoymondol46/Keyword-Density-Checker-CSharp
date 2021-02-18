@@ -1,5 +1,4 @@
 # Keyword-Density-Checker-CSharp
-A keyword density checker developed with C#
 
 Keyword Density Checker is an essential SEO tool. It searches for specific keywords and counts their density on any web page. It has the following features –
 
