@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace Keyword_Density_Checker
 {
@@ -19,24 +20,66 @@ namespace Keyword_Density_Checker
 
         public void showOutput()
         {
-            tbOutput.Clear();
+            List<List<string>> listOutputFinal = new List<List<string>>();
+            dgvOutput.Rows.Clear();
+            dgvOutput.Refresh();
+
+            this.dgvOutput.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+
             for (int i = 0; i < listOutput[0].Count; i++)
             {
+                listOutputFinal.Add(new List<string>());
                 for (int j = 0; j < listOutput.Count; j++)
                 {
-                    tbOutput.Text += listOutput[j][i] + "\t";
+                    listOutputFinal[i].Add(listOutput[j][i]);
                 }
-                tbOutput.Text += "\r\n";
+            }
+
+            dgvOutput.ColumnCount = listOutputFinal[0].Count;
+            for (int i = 0; i < listOutputFinal[0].Count; i++)
+            {
+                dgvOutput.Columns[i].HeaderText = listOutputFinal[0][i];
+            }
+
+            for (int i = 1; i < listOutputFinal.Count; i++)
+            {
+                dgvOutput.Rows.Add();
+                for (int j = 0; j < listOutputFinal[0].Count; j++) 
+                {
+                    if (j >= 2)
+                    {
+                        if (j % 2 == 0)
+                        {
+                            dgvOutput.Columns[j].ValueType = typeof(int);
+                        }
+                        else
+                        {
+                            dgvOutput.Columns[j].ValueType = typeof(double);
+                        }
+                    }
+
+                    dgvOutput.Rows[i-1].Cells[j].Value = listOutputFinal[i][j];
+                }
             }
         }
 
         public Form1()
         {
             listOutput.Add(new List<string>());
-            listOutput[0].Add("");
-            listOutput[0].Add("Word");
+            listOutput[0].Add("#");
+            listOutput.Add(new List<string>());
+            listOutput[1].Add("Word");
 
             InitializeComponent();
+
+            #region DoubleBuffered dgvOutput
+            typeof(DataGridView).InvokeMember(
+            "DoubleBuffered",
+            BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+            null,
+            dgvOutput,
+            new object[] { true });
+            #endregion
         }
 
         private void btnSource_Click(object sender, EventArgs e)
@@ -54,34 +97,59 @@ namespace Keyword_Density_Checker
         private void btnSearch_Click(object sender, EventArgs e)
         {
             tbSearchString.Text = tbSearchString.Text.Replace('\u00a0', '\u0020');
+            tbSearchString.Text = tbSearchString.Text.Replace('\u2019', '\u0027');
+
             tbSource.Text = tbSource.Text.Replace('\u00a0', '\u0020');
+            tbSource.Text = tbSource.Text.Replace('\u2019', '\u0027');
 
             string[] searchWords = tbSearchString.Text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             var countAllWords = tbSource.Text.Split(new[] { " ", "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).Length;
             
-            int nTerm = 1 + (countPages - 1) * 2; // nth term of arithmatic sequence (a1 = 1, d = 2)
+            int nTerm = 2 + (countPages - 1) * 2; // nth term of arithmatic sequence (a1 = 1, d = 2)
 
             listOutput.Add(new List<string>());
             listOutput.Add(new List<string>());
+
 
             listOutput[nTerm].Add("Page "+countPages);
-            listOutput[nTerm].Add("Count");
-            listOutput[nTerm + 1].Add("");
-            listOutput[nTerm + 1].Add("Density");
 
-            foreach (var word in searchWords)
+            listOutput[nTerm+1].Add("");
+
+
+            dgvOutput.ColumnCount = listOutput[0].Count;
+           
+            Console.WriteLine(listOutput.Count);
+            Console.WriteLine(listOutput[0].Count);
+
+            Parallel.For(0, listOutput.Count, i => 
+            {
+                for (int j = 0; j < searchWords.Length; j++)
+                {
+                    if (countPages <= 1)
+                    {
+                        listOutput[i].Add("");
+                    }
+                    else if (i >= nTerm)
+                    {
+                        listOutput[i].Add("");
+                    }
+                }
+            });
+
+            Parallel.For(0, searchWords.Length, i =>
             {
                 if (countPages <= 1)
                 {
-                    listOutput[0].Add(word);
+                    listOutput[0][i+1] = i.ToString();
+                    listOutput[1][i + 1] = searchWords[i];
                 }
 
-                string regex = @"\b"+word+@"\b";
+                string regex = @"(?=(\b|\W|\A))" + Regex.Escape(searchWords[i]) + @"(?<=(\b|\W|\Z))";
                 int countMatches = Regex.Matches(tbSource.Text, regex, RegexOptions.IgnoreCase).Count;
 
-                listOutput[nTerm].Add(countMatches.ToString());
-                listOutput[nTerm + 1].Add(((float)countMatches / (float)countAllWords).ToString());
-            }
+                listOutput[nTerm][i + 1] = countMatches.ToString();
+                listOutput[nTerm + 1][i + 1] = ((float)countMatches / (float)countAllWords).ToString();
+            });
 
             countPages++;
 
@@ -141,16 +209,19 @@ namespace Keyword_Density_Checker
             DialogResult confClear = MessageBox.Show("Are you sure you want to clear all output?", "Clear Confirmation", MessageBoxButtons.YesNo);
             if (confClear == DialogResult.Yes)
             {
-                tbOutput.Clear();
                 countPages = 1;
 
                 listOutput.Clear();
 
                 listOutput.Add(new List<string>());
-                listOutput[0].Add("");
-                listOutput[0].Add("Word");
+                listOutput[0].Add("#");
+                listOutput.Add(new List<string>());
+                listOutput[1].Add("Word");
 
                 tbSearchString.ReadOnly = false;
+                dgvOutput.Rows.Clear();
+                dgvOutput.Columns.Clear();
+                dgvOutput.Refresh();
             }
             else if (confClear == DialogResult.No)
             {
@@ -167,7 +238,89 @@ namespace Keyword_Density_Checker
             }
             else if (dialog == DialogResult.No)
             {
-                e.Cancel = true;
+
+            }
+        }
+
+        private void dgvOutput_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            if (e.Column.ValueType == typeof(double))
+            {
+                double a = double.Parse(e.CellValue1.ToString()), b = double.Parse(e.CellValue2.ToString());
+
+                e.SortResult = a.CompareTo(b);
+
+                e.Handled = true;
+            }
+
+            if (e.Column.ValueType == typeof(int))
+            {
+                int a = int.Parse(e.CellValue1.ToString()), b = int.Parse(e.CellValue2.ToString());
+
+                e.SortResult = a.CompareTo(b);
+
+                e.Handled = true;
+            }
+        }
+
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbFilter.Text))
+            {
+                Parallel.ForEach(dgvOutput.Rows.Cast<DataGridViewRow>(), row => {
+                    dgvOutput.BeginInvoke(new Action(() =>
+                    {
+                        row.Visible = true;
+                    }));
+                });
+            }
+            else if (cbExact.Checked)
+            {
+                Parallel.ForEach(dgvOutput.Rows.Cast<DataGridViewRow>(), row => {
+                    if (row.Cells[1].Value.ToString().ToLower().Equals(tbFilter.Text.ToLower()))
+                    {
+                        dgvOutput.BeginInvoke(new Action(() =>
+                        {
+                            row.Visible = true;
+                        }));
+                    }
+                    else
+                    {
+                        dgvOutput.BeginInvoke(new Action(() =>
+                        {
+                            row.Visible = false;
+                        }));
+                    }
+                });
+            }
+            else
+            {
+                Parallel.ForEach(dgvOutput.Rows.Cast<DataGridViewRow>(), row => {
+                    if (row.Cells[1].Value.ToString().ToLower().Contains(tbFilter.Text.ToLower()))
+                    {
+                        dgvOutput.BeginInvoke(new Action(() =>
+                        {
+                            row.Visible = true;
+                        }));
+                    }
+                    else
+                    {
+                        dgvOutput.BeginInvoke(new Action(() =>
+                        {
+                            row.Visible = false;
+                        }));
+                    }
+                });
+            }
+        }
+
+        private void tbFilter_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnFilter.PerformClick();
+
+                e.SuppressKeyPress = true;
             }
         }
     }

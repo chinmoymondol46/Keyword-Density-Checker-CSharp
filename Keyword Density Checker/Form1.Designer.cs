@@ -36,12 +36,15 @@ namespace Keyword_Density_Checker
             this.panel2 = new System.Windows.Forms.Panel();
             this.tbSearchString = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.tbOutput = new System.Windows.Forms.TextBox();
+            this.dgvOutput = new System.Windows.Forms.DataGridView();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnSource = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.btnSearch = new System.Windows.Forms.Button();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.cbExact = new System.Windows.Forms.CheckBox();
+            this.btnFilter = new System.Windows.Forms.Button();
+            this.tbFilter = new System.Windows.Forms.TextBox();
             this.btnClearAll = new System.Windows.Forms.Button();
             this.btnClearPrev = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -49,6 +52,7 @@ namespace Keyword_Density_Checker
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOutput)).BeginInit();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -70,9 +74,10 @@ namespace Keyword_Density_Checker
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 132F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1011, 646);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -80,9 +85,9 @@ namespace Keyword_Density_Checker
             // 
             this.panel1.Controls.Add(this.tbSource);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 103);
+            this.panel1.Location = new System.Drawing.Point(3, 135);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(398, 540);
+            this.panel1.Size = new System.Drawing.Size(398, 488);
             this.panel1.TabIndex = 0;
             // 
             // tbSource
@@ -93,16 +98,16 @@ namespace Keyword_Density_Checker
             this.tbSource.Multiline = true;
             this.tbSource.Name = "tbSource";
             this.tbSource.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbSource.Size = new System.Drawing.Size(398, 540);
+            this.tbSource.Size = new System.Drawing.Size(398, 488);
             this.tbSource.TabIndex = 0;
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.tbSearchString);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(407, 103);
+            this.panel2.Location = new System.Drawing.Point(407, 135);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(196, 540);
+            this.panel2.Size = new System.Drawing.Size(196, 488);
             this.panel2.TabIndex = 1;
             // 
             // tbSearchString
@@ -113,31 +118,32 @@ namespace Keyword_Density_Checker
             this.tbSearchString.Multiline = true;
             this.tbSearchString.Name = "tbSearchString";
             this.tbSearchString.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbSearchString.Size = new System.Drawing.Size(196, 540);
+            this.tbSearchString.Size = new System.Drawing.Size(196, 488);
             this.tbSearchString.TabIndex = 0;
             this.tbSearchString.WordWrap = false;
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.tbOutput);
+            this.panel3.Controls.Add(this.dgvOutput);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(609, 103);
+            this.panel3.Location = new System.Drawing.Point(609, 135);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(399, 540);
+            this.panel3.Size = new System.Drawing.Size(399, 488);
             this.panel3.TabIndex = 2;
             // 
-            // tbOutput
+            // dgvOutput
             // 
-            this.tbOutput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbOutput.Location = new System.Drawing.Point(0, 0);
-            this.tbOutput.MaxLength = 0;
-            this.tbOutput.Multiline = true;
-            this.tbOutput.Name = "tbOutput";
-            this.tbOutput.ReadOnly = true;
-            this.tbOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbOutput.Size = new System.Drawing.Size(399, 540);
-            this.tbOutput.TabIndex = 0;
-            this.tbOutput.WordWrap = false;
+            this.dgvOutput.AllowUserToAddRows = false;
+            this.dgvOutput.AllowUserToDeleteRows = false;
+            this.dgvOutput.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvOutput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvOutput.Location = new System.Drawing.Point(0, 0);
+            this.dgvOutput.Name = "dgvOutput";
+            this.dgvOutput.ReadOnly = true;
+            this.dgvOutput.RowHeadersVisible = false;
+            this.dgvOutput.Size = new System.Drawing.Size(399, 488);
+            this.dgvOutput.TabIndex = 1;
+            this.dgvOutput.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvOutput_SortCompare);
             // 
             // panel4
             // 
@@ -145,7 +151,7 @@ namespace Keyword_Density_Checker
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(398, 94);
+            this.panel4.Size = new System.Drawing.Size(398, 126);
             this.panel4.TabIndex = 3;
             // 
             // btnSource
@@ -164,7 +170,7 @@ namespace Keyword_Density_Checker
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(407, 3);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(196, 94);
+            this.panel5.Size = new System.Drawing.Size(196, 126);
             this.panel5.TabIndex = 4;
             // 
             // btnSearch
@@ -179,14 +185,49 @@ namespace Keyword_Density_Checker
             // 
             // panel6
             // 
+            this.panel6.Controls.Add(this.cbExact);
+            this.panel6.Controls.Add(this.btnFilter);
+            this.panel6.Controls.Add(this.tbFilter);
             this.panel6.Controls.Add(this.btnClearAll);
             this.panel6.Controls.Add(this.btnClearPrev);
             this.panel6.Controls.Add(this.btnSave);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(609, 3);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(399, 94);
+            this.panel6.Size = new System.Drawing.Size(399, 126);
             this.panel6.TabIndex = 5;
+            // 
+            // cbExact
+            // 
+            this.cbExact.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbExact.AutoSize = true;
+            this.cbExact.Location = new System.Drawing.Point(348, 102);
+            this.cbExact.Name = "cbExact";
+            this.cbExact.Size = new System.Drawing.Size(42, 17);
+            this.cbExact.TabIndex = 15;
+            this.cbExact.Text = "EM";
+            this.cbExact.UseVisualStyleBackColor = true;
+            // 
+            // btnFilter
+            // 
+            this.btnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnFilter.Location = new System.Drawing.Point(267, 98);
+            this.btnFilter.Name = "btnFilter";
+            this.btnFilter.Size = new System.Drawing.Size(75, 23);
+            this.btnFilter.TabIndex = 14;
+            this.btnFilter.Text = "Filter";
+            this.btnFilter.UseVisualStyleBackColor = true;
+            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+            // 
+            // tbFilter
+            // 
+            this.tbFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tbFilter.Font = new System.Drawing.Font("Calibri", 11F);
+            this.tbFilter.Location = new System.Drawing.Point(3, 97);
+            this.tbFilter.Name = "tbFilter";
+            this.tbFilter.Size = new System.Drawing.Size(258, 25);
+            this.tbFilter.TabIndex = 13;
+            this.tbFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbFilter_KeyDown);
             // 
             // btnClearAll
             // 
@@ -234,10 +275,11 @@ namespace Keyword_Density_Checker
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOutput)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -250,7 +292,6 @@ namespace Keyword_Density_Checker
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.TextBox tbSource;
         private System.Windows.Forms.TextBox tbSearchString;
-        private System.Windows.Forms.TextBox tbOutput;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnSource;
         private System.Windows.Forms.Panel panel5;
@@ -259,6 +300,10 @@ namespace Keyword_Density_Checker
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnClearPrev;
         private System.Windows.Forms.Button btnClearAll;
+        private System.Windows.Forms.DataGridView dgvOutput;
+        private System.Windows.Forms.CheckBox cbExact;
+        private System.Windows.Forms.Button btnFilter;
+        private System.Windows.Forms.TextBox tbFilter;
     }
 }
 
