@@ -120,9 +120,6 @@ namespace Keyword_Density_Checker
             dgvOutput.Refresh();
 
             dgvOutput.ColumnCount = listOutput.Count;
-           
-            Console.WriteLine(listOutput.Count);
-            Console.WriteLine(listOutput[0].Count);
 
             Parallel.For(0, listOutput.Count, i => 
             {
