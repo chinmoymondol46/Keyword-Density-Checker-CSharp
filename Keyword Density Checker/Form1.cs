@@ -115,8 +115,11 @@ namespace Keyword_Density_Checker
 
             listOutput[nTerm+1].Add("");
 
+            dgvOutput.Rows.Clear();
+            dgvOutput.Columns.Clear();
+            dgvOutput.Refresh();
 
-            dgvOutput.ColumnCount = listOutput[0].Count;
+            dgvOutput.ColumnCount = listOutput.Count;
            
             Console.WriteLine(listOutput.Count);
             Console.WriteLine(listOutput[0].Count);

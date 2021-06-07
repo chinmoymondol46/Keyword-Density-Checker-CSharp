@@ -37,3 +37,13 @@ C:\Users\ASUS\Desktop\Some Works\Tonmoy Da\KDC\Keyword Density Checker\Keyword D
 C:\Users\ASUS\Desktop\Some Works\Tonmoy Da\KDC\Keyword Density Checker\Keyword Density Checker\obj\Debug\Keyword Density Checker.csproj.CoreCompileInputs.cache
 C:\Users\ASUS\Desktop\Some Works\Tonmoy Da\KDC\Keyword Density Checker\Keyword Density Checker\obj\Debug\Keyword Density Checker.exe
 C:\Users\ASUS\Desktop\Some Works\Tonmoy Da\KDC\Keyword Density Checker\Keyword Density Checker\obj\Debug\Keyword Density Checker.pdb
+E:\Codes\Keyword-Density-Checker-CSharp\Keyword Density Checker\bin\Debug\Keyword Density Checker.exe.config
+E:\Codes\Keyword-Density-Checker-CSharp\Keyword Density Checker\bin\Debug\Keyword Density Checker.exe
+E:\Codes\Keyword-Density-Checker-CSharp\Keyword Density Checker\bin\Debug\Keyword Density Checker.pdb
+E:\Codes\Keyword-Density-Checker-CSharp\Keyword Density Checker\obj\Debug\Keyword Density Checker.csprojAssemblyReference.cache
+E:\Codes\Keyword-Density-Checker-CSharp\Keyword Density Checker\obj\Debug\Keyword_Density_Checker.Form1.resources
+E:\Codes\Keyword-Density-Checker-CSharp\Keyword Density Checker\obj\Debug\Keyword_Density_Checker.Properties.Resources.resources
+E:\Codes\Keyword-Density-Checker-CSharp\Keyword Density Checker\obj\Debug\Keyword Density Checker.csproj.GenerateResource.cache
+E:\Codes\Keyword-Density-Checker-CSharp\Keyword Density Checker\obj\Debug\Keyword Density Checker.csproj.CoreCompileInputs.cache
+E:\Codes\Keyword-Density-Checker-CSharp\Keyword Density Checker\obj\Debug\Keyword Density Checker.exe
+E:\Codes\Keyword-Density-Checker-CSharp\Keyword Density Checker\obj\Debug\Keyword Density Checker.pdb
